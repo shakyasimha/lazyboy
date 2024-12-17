@@ -4,18 +4,24 @@ def main():
     """
     Main driver function goes here
     """
+    # Initialize ArgumentParser with custom program name
     parser = argparse.ArgumentParser(prog='LazyBoy')
-    parser.add_argument('-n', '--name')
+    
+    # Define optional arguments here
+    # Flag to display name of the application
+    parser.add_argument('-n', '--name', action='store_true', help='Display name of the application.')
+    
+    # Flag to enable verbosity
     parser.add_argument('-v', '--verbose', action='store_true', default=0)
 
-    parser.add_argument("command", choices=["add", "remove", "list"], help="Add, remove or list the tasks")
+    parser.add_argument('command', choices=['add', 'remove', 'list'], help='Add, remove or list the tasks'm nargs='?')
     args, remaining_args = parser.parse_known_args()
     
     print(args)
     print(remaining_args)
     
-    if args.command == "args":
-        parser.add_argument("task", nargs="+", type=str)
+    if args.command == 'add':
+        parser.add_argument('task', nargs='+', type=str)
         args = parser.parse_args()
     else:
         args = parser.parse_known_args(remaining_args)
@@ -23,12 +29,13 @@ def main():
     task_list = []
     
     match args.command:
-        case "add":
+        case 'add':
             task_str = " ".join(args.task)
             task_list.append(task_str)
             
             print(f"Task {task_list.index(task_str)+1} was added.")
-            if args.verbose: 
+            
+            if args.verbose:
                 print(f"Task {task_list.index(task_str)+1} \'{task_str}\' was added.\n")
         
         case "list":
