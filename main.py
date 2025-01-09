@@ -1,4 +1,28 @@
-import argparse 
+import click
+import argparse
+
+## All the commands are defined here
+@click.command() 
+def hello():
+    click.echo('Hello world!')
+
+@click.command()
+def initdb():
+    click.echo('Database initialized')
+    
+@click.command() 
+def dropdb():
+    click.echo('Database dropped')
+    
+
+## Click group starts here
+@click.group()
+def cli():
+    pass 
+
+## Commands added to cli here
+cli.add_command(initdb)
+cli.add_command(dropdb)
 
 def main():
     """
@@ -14,7 +38,7 @@ def main():
     # Flag to enable verbosity
     parser.add_argument('-v', '--verbose', action='store_true', default=0)
 
-    parser.add_argument('command', choices=['add', 'remove', 'list'], help='Add, remove or list the tasks'm nargs='?')
+    parser.add_argument('command', choices=['add', 'remove', 'list'], help='Add, remove or list the tasks', nargs='?')
     args, remaining_args = parser.parse_known_args()
     
     print(args)
@@ -46,4 +70,4 @@ def main():
                     print(f"{task_list.index(t)+1} : {t} \n")
                 
 if __name__ == "__main__":
-    main()
+    cli()
