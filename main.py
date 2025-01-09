@@ -14,6 +14,10 @@ def initdb():
 def dropdb():
     click.echo('Database dropped')
     
+@click.command() 
+@click.argument('task')
+def add(task):
+    click.echo(f'\'{task}\' task added.')
 
 ## Click group starts here
 @click.group()
@@ -23,6 +27,7 @@ def cli():
 ## Commands added to cli here
 cli.add_command(initdb)
 cli.add_command(dropdb)
+cli.add_command(add)
 
 def main():
     """
