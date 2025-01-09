@@ -37,11 +37,11 @@ class QuerySet:
         try:
             self.cursor.execute('''
                 CREATE TABLE Task(
-                    id INTEGER PRIMARY KEY,
-                    task_name TEXT,
-                    age INTEGER,
-                    urgency INTEGER,
-                    completed INTEGER
+                    ID INTEGER PRIMARY KEY,
+                    TASK_NAME TEXT,
+                    AGE INTEGER,
+                    URGENCY INTEGER,
+                    COMPLETED INTEGER
                 )
             ''')
         except sqlite3.Error as error:
@@ -56,8 +56,14 @@ class QuerySet:
         else:
             print("[sqlite3] [error] Database was never initialized.")
     
-    def add(self):
-        """Method for adding tasks to the database
+    def add(self, task_name, age=0, urgency=0, completed=0):
+        """Method for adding tasks to the database 
         """
-        
+        try:
+            self.cursor.execute('''
+                INSERT INTO Task (TASK_NAME, AGE, URGENCY, COMPLETED)
+                VALUES (?,?,?,?);
+            ''', (task_name, age, urgency, completed))
+        except sqlite3.Error as error:
+            print(f'[sqlite3] [error] ${error}')
     
