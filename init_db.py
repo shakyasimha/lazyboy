@@ -92,4 +92,3 @@ class QuerySet:
         except sqlite3.Error as error: 
             print(f'[sqlite3] [error] ${error}')
     
-    def 
