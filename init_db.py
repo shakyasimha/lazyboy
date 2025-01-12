@@ -8,12 +8,9 @@ import os
 DB_NAME = 'lazyboy.db'
 
 class QuerySet:
-    """
-    Class for running the SQL queries on my main runner code
-    """
+    """ Class for running the SQL queries on my main runner code """
     def __init__(self):
-        """ Ctor
-        """
+        """ Ctor """
         try:
             self.connection = sqlite3.connect(DB_NAME)
             self.cursor = self.connection.cursor()
@@ -22,18 +19,7 @@ class QuerySet:
             print(f"[sqlite3] [error] ${error}")
         
     def create_table(self):
-        """ Function for creating tables
-        """
-        
-        """
-        Table: Tasks
-        Columns:
-            ID (auto generated)
-            TASK_NAME (TEXT)
-            AGE (INTEGER)
-            URGENCY (INTEGER)
-            COMPLETED (INTEGER)
-        """
+        """ Function for creating tables """
         try:
             self.cursor.execute('''
                 CREATE TABLE Task(
@@ -50,17 +36,15 @@ class QuerySet:
             print(f'[sqlite3] [error] ${error}')
             
     def close_db(self):
-        """Method for closing the connection
-        """
+        """ Method for closing the connection """
         if sqlite3.Connection:
             self.connection.close()
             print("[sqlite3] Connection closed successfully.")
         else:
             print("[sqlite3] [error] Database was never initialized.")
     
-    def add(self, task_name, age=0, urgency=0, completed=0):
-        """Method for adding tasks to the database 
-        """
+    def add_task(self, task_name, age=0, urgency=0, completed=0):
+        """ Method for adding tasks to the database """
         try:
             self.cursor.execute('''
                 INSERT INTO Task (TASK_NAME, AGE, URGENCY, COMPLETED)
@@ -70,10 +54,11 @@ class QuerySet:
             self.connection.commit()
         except sqlite3.Error as error:
             print(f'[sqlite3] [error] ${error}')
-            
-    def remove(self, task_name=None, task_id=None):
-        """ Method for removing task via id
-        """
+    
+    def get_task_by_id(self, task_id):
+        """ Method for retrieving task by id """    
+    def remove_task(self, task_name=None, task_id=None):
+        """ Method for removing task via id """
         try: 
             if task_name: 
                 self.cursor.execute('''
