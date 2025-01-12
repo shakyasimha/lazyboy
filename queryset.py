@@ -41,7 +41,15 @@ class QuerySet:
             print("[sqlite3] Connection closed successfully.")
         else:
             print("[sqlite3] [error] Database was never initialized.")
-    
+
+    def drop_db(self):
+        """ Method for dropping the table """
+        try: 
+            self.cursor.execute('DROP TABLE IF EXISTS Task;')
+            self.connection.commit()
+        except sqlite3.Error as error:
+            print(f"[sqlite3] [error] ${error}.")
+            
     def add_task(self, task_name, age=0, urgency=0, completed=0):
         """ Method for adding tasks to the database """
         try:
