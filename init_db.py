@@ -3,7 +3,6 @@
 """
 
 import sqlite3
-import os 
 
 DB_NAME = 'lazyboy.db'
 
@@ -55,19 +54,49 @@ class QuerySet:
         except sqlite3.Error as error:
             print(f'[sqlite3] [error] ${error}')
     
-    def get_task_by_id(self, task_id):
+    def fetch_task(self, task_id=None, task_name=None):
         """ Method for retrieving task by id """    
+        try: 
+            if task_name:
+                self.cursor.execute('''
+                    SELECT * FROM Task WHERE TASK_NAME=?;
+                ''', (task_name,))
+                task = self.cursor.fetchone()
+                return task if task else None
+            
+            elif task_id:
+                self.cursor.execute('''
+                    SELECT * FROM Task WHERE ID=?;
+                ''', (task_id,))
+                task = self.cursor.fetchone()
+                return task if task else None
+                
+        except sqlite3.Error as error: 
+            print(f'[sqlite3] [error] ${error}')
+    
+    def fetch_all(self):
+        """ Method for retrieving all tasks """
+        try: 
+            self.cursor.execute('''
+                SELECT * FROM Task;
+            ''')
+            tasks = self.cursor.fetchall() 
+            return tasks if tasks else None
+        except sqlite3.Error as error: 
+            print(f'[sqlite3] [error] ${error}')
+            
     def remove_task(self, task_name=None, task_id=None):
         """ Method for removing task via id """
+        
         try: 
             if task_name: 
                 self.cursor.execute('''
                     DELETE FROM Task 
-                    WHERE TASK_NAME=?
+                    WHERE TASK_NAME=?;
                 ''', (task_name,))
-                
                 self.connection.commit()
-            if task_id:
+                
+            elif task_id:
                 self.cursor.execute('''
                     DELETE FROM Task 
                     WHERE ID=?;

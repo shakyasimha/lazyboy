@@ -1,6 +1,6 @@
 import unittest 
 import sqlite3
-from init_db.QuerySet import create_table, add_task, remove_task
+from init_db.QuerySet import create_table, add_task, remove_task, fetch_task, fetch_all
 
 class TestQueries(unittest.TestCase):
     def test_entries(self):
