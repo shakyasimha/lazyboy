@@ -44,6 +44,8 @@ class QuerySet:
                     COMPLETED INTEGER
                 )
             ''')
+            
+            self.connection.commit()
         except sqlite3.Error as error:
             print(f'[sqlite3] [error] ${error}')
             
@@ -64,6 +66,30 @@ class QuerySet:
                 INSERT INTO Task (TASK_NAME, AGE, URGENCY, COMPLETED)
                 VALUES (?,?,?,?);
             ''', (task_name, age, urgency, completed))
+            
+            self.connection.commit()
         except sqlite3.Error as error:
             print(f'[sqlite3] [error] ${error}')
+            
+    def remove(self, task_name=None, task_id=None):
+        """ Method for removing task via id
+        """
+        try: 
+            if task_name: 
+                self.cursor.execute('''
+                    DELETE FROM Task 
+                    WHERE TASK_NAME=?
+                ''', (task_name,))
+                
+                self.connection.commit()
+            if task_id:
+                self.cursor.execute('''
+                    DELETE FROM Task 
+                    WHERE ID=?;
+                ''', (task_id,))
+                
+                self.connection.commit()
+        except sqlite3.Error as error: 
+            print(f'[sqlite3] [error] ${error}')
     
+    def 
