@@ -31,8 +31,12 @@ def list():
     
     if tasks:
         print("ID  Tasks")
+        print("-------------------")
+        
         for idx, task in enumerate(tasks, start=1):
-            print(f"{idx}  {task}\n")
+            print(f"{idx}   {task[1]}")
+            
+        print("\n")
     else:
         print("No tasks to show.")
     
@@ -44,6 +48,7 @@ def cli():
 ## Commands added to cli here
 cli.add_command(start)
 cli.add_command(add)
+cli.add_command(list)
                 
 if __name__ == "__main__":
     cli()

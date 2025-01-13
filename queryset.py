@@ -13,26 +13,39 @@ class QuerySet:
         try:
             self.connection = sqlite3.connect(DB_NAME)
             self.cursor = self.connection.cursor()
-            self.create_table()
-        except sqlite3.Error as error:
-            print(f"[sqlite3] [error] ${error}")
-        
-    def create_table(self):
-        """ Function for creating tables """
-        try:
+            
+            """ Creating table here """
             self.cursor.execute('''
-                CREATE TABLE Task(
-                    ID INTEGER PRIMARY KEY,
-                    TASK_NAME TEXT,
-                    AGE INTEGER,
-                    URGENCY INTEGER,
+                CREATE TABLE IF NOT EXISTS Task(
+                    ID INTEGER PRIMARY KEY, 
+                    TASK_NAME TEXT, 
+                    AGE INTEGER, 
+                    URGENCY INTEGER, 
                     COMPLETED INTEGER
-                )
+                );
             ''')
             
             self.connection.commit()
+            # self.close_db()
         except sqlite3.Error as error:
-            print(f'[sqlite3] [error] ${error}')
+            print(f"[sqlite3] [error] ${error}")
+        
+    # def create_table(self):
+    #     """ Function for creating tables """
+    #     try:
+    #         self.cursor.execute('''
+    #             CREATE TABLE Task(
+    #                 ID INTEGER PRIMARY KEY,
+    #                 TASK_NAME TEXT,
+    #                 AGE INTEGER,
+    #                 URGENCY INTEGER,
+    #                 COMPLETED INTEGER
+    #             )
+    #         ''')
+            
+    #         self.connection.commit()
+    #     except sqlite3.Error as error:
+    #         print(f'[sqlite3] [error] ${error}')
             
     def close_db(self):
         """ Method for closing the connection """
